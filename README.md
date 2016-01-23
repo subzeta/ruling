@@ -3,7 +3,7 @@ Stateless rule engine to assert statements given a context.
 
 # Install
 ```bash
-$ composer require "subzeta/ruling"
+$ composer require "subzeta/ruling":"dev-master"
 ```
 
 # Usage example
