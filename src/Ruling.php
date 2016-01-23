@@ -2,8 +2,6 @@
 
 namespace subzeta\Ruling;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use subzeta\Ruling\Evaluator\Evaluator;
 use subzeta\Ruling\Exception\InvalidCallbackException;
 use subzeta\Ruling\Exception\InvalidContextException;
