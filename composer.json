@@ -16,7 +16,6 @@
             "subzeta\\Ruling\\": "src/"
         }
     },
-    "minimum-stability": "dev",
     "require": {
         "nicoswd/php-rule-parser": "^0.3.5"
     }
