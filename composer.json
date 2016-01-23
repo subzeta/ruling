@@ -1,0 +1,23 @@
+{
+    "name": "subzeta/ruling",
+    "type": "library",
+    "description": "A simple rule engine for Laravel",
+    "keywords": ["rule", "engine", "rule engine", "laravel"],
+    "homepage": "https://github.com/subzeta/ruling",
+    "authors": [
+        {
+            "name": "Sergio Cabrera",
+            "role": "Developer",
+            "email": "subzeta@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "subzeta\\Ruling\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "nicoswd/php-rule-parser": "^0.3.5"
+    }
+}
