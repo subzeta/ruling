@@ -89,11 +89,11 @@ class Ruling
     /**
      * @return bool
      */
-    public function evaluate()
+    public function assert()
     {
         $this->validate();
 
-        return $this->evaluator->evaluate($this->rules, $this->context);
+        return $this->evaluator->assert($this->rules, $this->context);
     }
 
     /**
@@ -101,7 +101,7 @@ class Ruling
      */
     public function execute()
     {
-        return $this->evaluate() ?
+        return $this->assert() ?
             ($this->successCallback ? call_user_func($this->successCallback) : true) :
             ($this->failCallback ? call_user_func($this->failCallback) : false);
     }
@@ -119,7 +119,7 @@ class Ruling
         if (!$this->rules->valid()) {
             throw new InvalidRuleException('Rule must be a string or an array of strings.');
         }
-        if (!$this->evaluator->isValid($this->rules, $this->context)) {
+        if (!$this->evaluator->valid($this->rules, $this->context)) {
             throw new InvalidRuleException('Rule format is not semantically valid.');
         }
         if ($this->successCallback !== null && !is_callable($this->successCallback)) {

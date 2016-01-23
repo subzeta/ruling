@@ -4,7 +4,7 @@ namespace subzeta\Ruling\Test;
 
 use subzeta\Ruling\Ruling;
 
-class RulingTest extends \PHPUnit_Framework_TestCase
+class RulingValidationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Ruling
@@ -107,98 +107,6 @@ class RulingTest extends \PHPUnit_Framework_TestCase
             ->then(function(){return null;})
             ->otherwise('morcilla')
             ->execute();
-    }
-
-    /**
-     * @test
-     */
-    public function itShouldReturnAnStringWhenRuleAssertsAndSuccessCallbackReturnsAnString()
-    {
-        $this->assertEquals(
-            'It works!',
-            $this->ruling
-                ->given(['something' => 10])
-                ->when(':something is greater than 5 and :something is less than 15')
-                ->then(function(){return 'It works!';})
-                ->execute()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function isShouldReturnTrueWhenMultipleRulesAssertsAndSuccessCallbackReturnsTrue()
-    {
-        $this->assertTrue(
-            $this->ruling
-                ->given(['something' => 20])
-                ->when([
-                    ':something is greater than 5 and :something is less than 25',
-                    ':something is equal to 20'
-                ])
-                ->then(function(){return true;})
-                ->execute()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function isShouldReturnAnStringWhenRuleDoesNotAssertsAndFailCallbackReturnsAnString()
-    {
-        $this->assertFalse(
-            $this->ruling
-                ->given(['something' => 20])
-                ->when(':something is greater than 5 and :something is less than 15')
-                ->then(function(){return 'It works!';})
-                ->execute()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function isShouldReturnAnStringWhenThe2ndRuleDoesNotAssertButTheFirstOneYesAndFailCallbackReturnsAnString()
-    {
-        $this->assertEquals(
-            'It fails!',
-            $this->ruling
-                ->given(['something' => 20])
-                ->when([
-                    ':something is greater than 5 and :something is less than 25',
-                    ':something is greater than 21'
-                ])
-                ->then(function(){return 'It works!';})
-                ->otherwise(function(){return 'It fails!';})
-                ->execute()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function itShouldReturnTrueIfEvaluationIsSuccessfulAndNoThenCallbackIsProvided()
-    {
-        $this->assertTrue(
-            $this->ruling
-                ->given(['haha' => 4])
-                ->when(':haha is greater than 3')
-                ->execute()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function itShouldReturnFalseIfEvaluationIsNegativeAndNoOtherwiseCallbackIsProvided()
-    {
-        $this->assertFalse(
-            $this->ruling
-                ->given(['haha' => 2])
-                ->when(':haha is greater than 3')
-                ->then(function(){return null;})
-                ->execute()
-        );
     }
 
     /**

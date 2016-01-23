@@ -51,7 +51,7 @@ class Context
     {
         if (is_array($context)) {
             foreach ($context as $key => $value) {
-                $context[':' . $key] = $value;
+                $context[':' . $key] = !empty($value) && is_string($value) ? '"'.$value.'"' : $value;
                 unset($context[$key]);
             }
         }

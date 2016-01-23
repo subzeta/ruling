@@ -18,5 +18,8 @@
     },
     "require": {
         "nicoswd/php-rule-parser": "^0.3.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.1.4"
     }
 }

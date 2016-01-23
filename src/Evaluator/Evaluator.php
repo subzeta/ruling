@@ -15,7 +15,7 @@ class Evaluator
      * @param Context $context
      * @return bool
      */
-    public function evaluate($rules, $context)
+    public function assert($rules, $context)
     {
         foreach ($rules->get() as $rule) {
             if (!(new Rule($this->prepare($rule, $context)))->isTrue()) {
@@ -31,7 +31,7 @@ class Evaluator
      * @param Context $context
      * @return bool
      */
-    public function isValid($rules, $context)
+    public function valid($rules, $context)
     {
         foreach ($rules->get() as $rule) {
             if (!(new Rule($this->prepare($rule, $context)))->isValid()) {
