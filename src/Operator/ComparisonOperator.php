@@ -10,12 +10,15 @@ class ComparisonOperator
     public function getAll()
     {
         return [
-            'is greater than' => '>',
-            'is greater or equal to' => '>=',
-            'is less than' => '<',
-            'is less or equal to' => '<=',
-            'is equal to' => '==',
-            'is not equal to' => '!=',
+            ' is greater than ' => ' > ',
+            ' is greater or equal to ' => ' >= ',
+            ' is less than ' => ' < ',
+            ' is less or equal to ' => ' <= ',
+            ' is equal to ' => ' == ',
+            ' is not equal to ' => ' != ',
+            ' is not ' => ' != ',
+            ' isn\'t ' => ' != ',
+            ' is ' => ' == ',
         ];
     }
 }

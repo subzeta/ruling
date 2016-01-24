@@ -51,7 +51,7 @@ Different types of exceptions are thrown when something goes wrong:
 #### InvalidContextException
 When the provided context isn't valid (accepts: ['string-key-1' => value-1, ..., 'string-key-x' => value-x]).
 #### InvalidRuleException
-When the provided rules isn't valid (accepts: 'string' or ['string-1', ..., 'string-x']) 
+When the provided rules aren't valid (accepts: 'string' or ['string-1', ..., 'string-x']) 
 #### InvalidCallbackException
 When the provided success/fail callback isn't callable (accepts: function(){return 'Hey Ho! Let\'s go!';})
 
@@ -62,8 +62,8 @@ Comparison | is greater than | >
 Comparison | is greater or equal to | >=
 Comparison | is less than | <
 Comparison | is less or equal to | <=
-Comparison | is equal to | ==
-Comparison | is not equal to | !=
+Comparison | is equal to (alias: is) | ==
+Comparison | is not equal to (aliases: is not, isn't) | !=
 Logical | and | &&
 Logical | or | \|\|
 
@@ -79,6 +79,8 @@ $ phpunit
 # To do
 * Increase the number of unit tests to prevent bad formatted rules from being executed.
 * Add more operators (in, for example).
-* Allow aliases ("is equal to" can be written as "is" and "is not equal to" as "is not"/"isn't").
 * Context values may permit callable functions too.
 * It can be interesting to implement a kind of *dump* method to show the interpreted rule.
+
+# Changelist
+* Allow aliases ("is equal to" can be written as "is" and "is not equal to" as "is not"/"isn't").

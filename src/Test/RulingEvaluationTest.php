@@ -77,7 +77,8 @@ class RulingEvaluationTest extends \PHPUnit_Framework_TestCase
             $this->multipleRule(),
             $this->parenthesis(),
             $this->encodings(),
-            $this->caseSensitivity()
+            $this->caseSensitivity(),
+            $this->operators()
         );
     }
 
@@ -188,6 +189,20 @@ class RulingEvaluationTest extends \PHPUnit_Framework_TestCase
                 ':something is equal to "FIDEUA" and :something is not equal to "croissant"',
                 null,
                 function(){return false;}
+            ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function operators()
+    {
+        return [
+            [
+                ['something' => 'gazpacho'],
+                ':something is "gazpacho" and :something is not "salmorejo"',
+                function(){return true;},
             ]
         ];
     }
