@@ -34,7 +34,7 @@ $my->joyfulness = 10;
     // 5-. run!
     })->execute();
 
-// Outputs: Hell yeah, I should listen it!
+// Outputs: Hell yeah, I should listen music right now!
 ```
 
 # Calls
