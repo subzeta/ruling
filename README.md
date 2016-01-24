@@ -86,9 +86,9 @@ $ phpunit
 
 # To do
 * Add more operators (in, for example).
-* It can be interesting to implement a kind of *dump* method to show the interpreted rule.
 
 # Changelist
 * Allow aliases ("is equal to" can be written as "is" and "is not equal to" as "is not"/"isn't").
 * Context values may permit callable functions too.
 * Added the strict comparison operators (same as, not same as).
+* It can be interesting to implement a kind of *dump* method to show the interpreted rule.
