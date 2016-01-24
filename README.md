@@ -13,7 +13,7 @@ $ composer require "subzeta/ruling":"dev-master"
 require '/path/to/vendor/autoload.php';
 
 // Non-composer install
-require '/path/to/src/nicoSWD/Rules/Autoloader.php';
+require '/path/to/src/subzeta/Ruling/Autoloader.php';
 
 use subzeta\Ruling\Ruling;
 
