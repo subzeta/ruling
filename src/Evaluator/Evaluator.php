@@ -43,6 +43,22 @@ class Evaluator
     }
 
     /**
+     * @param RuleCollection $rules
+     * @param Context $context
+     * @return string[]
+     */
+    public function interpret($rules, $context)
+    {
+        $interpretations = [];
+
+        foreach ($rules->get() as $rule) {
+            $interpretations[] = $this->prepare($rule, $context);
+        }
+
+        return $interpretations;
+    }
+
+    /**
      * @param string $rule
      * @param Context $context
      * @return string

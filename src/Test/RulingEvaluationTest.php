@@ -67,6 +67,20 @@ class RulingEvaluationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function itShouldReturnACorrectInterpretation()
+    {
+        $this->assertSame(
+            ['(true === false && 1 < 2) || 3 <= 4'],
+            $this->ruling
+                ->given(['a' => true, 'b' => 2, 'c' => 4])
+                ->when('(:a same as false and 1 < :b) or 3 is less or equal to 4')
+                ->interpret()
+        );
+    }
+
+    /**
      * @return array
      */
     public function getData()

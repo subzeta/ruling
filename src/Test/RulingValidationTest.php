@@ -62,9 +62,9 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldReturnAnInvalidRuleExceptionIfRuleIsValid()
     {
-        $this->setExpectedException(
+        $this->setExpectedExceptionRegExp(
             'subzeta\Ruling\Exception\InvalidRuleException',
-            'Rule format is not semantically valid.'
+            '/^(Rules aren\'t semantically valid)(.*)$/'
         );
 
         $this->ruling

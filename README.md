@@ -38,11 +38,16 @@ $my->joyfulness = 10;
 ```
 
 # Calls
-There are two main entrances to evaluate a given context:
+There are three main entrances:
+#### interpret
+Returns the interpreted rules.
+Using the example above the output would be: ['80 > 90 || 10 < 20']
 #### assert
 Returns a boolean indicating the output.
+Using the example above the output would be: true
 #### execute
 Fires the success or fail callback if defined.
+Using the example above the output would be: 'Hell yeah, I should listen it!'
 
 # Error handling
 Different types of exceptions are thrown when something goes wrong:

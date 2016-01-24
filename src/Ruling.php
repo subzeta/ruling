@@ -107,6 +107,14 @@ class Ruling
     }
 
     /**
+     * @return string[]
+     */
+    public function interpret()
+    {
+        return $this->evaluator->interpret($this->rules, $this->context);
+    }
+
+    /**
      * @throws InvalidContextException
      * @throws InvalidRuleException
      * @throws InvalidCallbackException
@@ -120,7 +128,7 @@ class Ruling
             throw new InvalidRuleException('Rule must be a string or an array of strings.');
         }
         if (!$this->evaluator->valid($this->rules, $this->context)) {
-            throw new InvalidRuleException('Rule format is not semantically valid.');
+            throw new InvalidRuleException('Rules aren\'t semantically valid ('.implode(',', $this->interpret()).').');
         }
         if ($this->successCallback !== null && !is_callable($this->successCallback)) {
             throw new InvalidCallbackException('Success callback must be callable.');
