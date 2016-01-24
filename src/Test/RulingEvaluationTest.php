@@ -72,20 +72,24 @@ class RulingEvaluationTest extends \PHPUnit_Framework_TestCase
     public function getData()
     {
         return array_merge(
-            $this->baseCheckUps(),
+            $this->simpleContextAndSimpleRule(),
             $this->multipleContext(),
             $this->multipleRule(),
             $this->parenthesis(),
             $this->encodings(),
             $this->caseSensitivity(),
-            $this->operators()
+            $this->operators(),
+            $this->callableContextValue(),
+            $this->stricts(),
+            $this->notStricts(),
+            $this->expectations()
         );
     }
 
     /**
      * @return array
      */
-    public function baseCheckUps()
+    public function simpleContextAndSimpleRule()
     {
         return [
             [
@@ -100,7 +104,7 @@ class RulingEvaluationTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 ['something' => 'fideuà'],
-                ':something is equal to "fideuá" and :something is not equal to "croissant"',
+                ':something is equal to "fideuá" and :something isn\'t "croissant"',
                 null,
                 function () {return false;}
             ],
@@ -134,10 +138,7 @@ class RulingEvaluationTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 ['something' => 'fricandó'],
-                [
-                    ':something is equal to "fricandó"',
-                    ':something is not equal to "fideuà"'
-                ],
+                [':something is equal to "fricandó"', ':something is not equal to "fideuà"'],
                 function () {return true;}
             ],
         ];
@@ -204,6 +205,191 @@ class RulingEvaluationTest extends \PHPUnit_Framework_TestCase
                 ':something is "gazpacho" and :something is not "salmorejo"',
                 function(){return true;},
             ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function callableContextValue()
+    {
+        return [
+            [
+                ['purchase' => function(){return 'gazpacho';}, 'price' => function(){return 40;}],
+                ':purchase is "gazpacho" and :price is greater than 50',
+                null,
+                function(){return false;}
+            ],
+            [
+                ['logged' => function(){return true;}, 'name' => function(){return 'foo';}],
+                ':logged is true and :name is "foo"',
+                function(){return 'It\'s him!';}
+            ],
+        ];
+    }
+
+    public function stricts()
+    {
+        return [
+            [
+                ['pretty' => 1, 'likes_acdc' => function(){return true;}],
+                ':pretty same as 1 and :likes_acdc is true',
+                function(){return true;}
+            ],
+            [
+                ['pretty' => false, 'likes_acdc' => function(){return true;}],
+                ':pretty not same as true or :likes_acdc same as true',
+                function(){return true;}
+            ],
+            [
+                ['pretty' => true, 'likes_acdc' => function(){return false;}],
+                ':pretty same as true and :likes_acdc same as false',
+                function(){return true;}
+            ],
+            [
+                ['pretty' => '1'],
+                ':pretty same as "1"',
+                function(){return true;}
+            ],
+            [
+                ['pretty' => 1],
+                ':pretty same as 1',
+                function(){return true;}
+            ],
+        ];
+    }
+
+    public function notStricts()
+    {
+        return [
+            [
+                ['pretty' => 1, 'likes_acdc' => function(){return true;}],
+                ':pretty is true and :likes_acdc is not true',
+                null,
+                function(){return 'Shook me all night long is a masterpice honey.';}
+            ],
+            [
+                ['logged' => function(){return 'true';}, 'name' => function(){return 'foo';}],
+                ':logged is "true" and :name is "foo"',
+                function(){return 'It\'s him!';}
+            ],
+            [
+                ['logged' => function(){return 1;}, 'name' => function(){return 'foo';}],
+                ':logged is true and :name is "foo"',
+                function(){return 'It\'s him!';}
+            ],
+            [
+                ['pretty' => 0, 'likes_acdc' => function(){return true;}],
+                ':pretty is not true and :likes_acdc is not true',
+                null,
+                function(){return 'Shook me all night long is a masterpice honey.';}
+            ],
+            [
+                ['logged' => function(){return 'false';}, 'name' => function(){return 'foo';}],
+                ':logged isn\'t "true" and :name is "foo"',
+                function(){return 'It\'s him!';}
+            ],
+        ];
+    }
+
+    public function expectations()
+    {
+        return [
+            [
+                ['something' => null],
+                ':something is null',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'null'],
+                ':something is not null',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => true],
+                ':something is true',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => false],
+                ':something is false',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'true'],
+                ':something is "true"',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'false'],
+                ':something is "false"',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 1],
+                ':something is true',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 0],
+                ':something is false',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 1.1],
+                ':something is less than 1.2',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 1.3],
+                ':something is greater or equal to 1.2',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'The Rolling Stones'],
+                ':something is "The Rolling Stones"',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'The Rolling Stones'],
+                ':something is \'The Rolling Stones\'',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'The Rolling Stones'],
+                ":something is 'The Rolling Stones'",
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'The Cardigans'],
+                ':something is not "The Cure"',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'The Cardigans'],
+                ':something is not \'The Cure\'',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'The Cardigans'],
+                ":something is not 'The Cure'",
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'Pink Floyd'],
+                ':something isn"t "Deep Purple"',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'Pink Floyd'],
+                ':something isn\'t \'Deep Purple\'',
+                function(){return 'Yep!';}
+            ],
+            [
+                ['something' => 'Pink Floyd'],
+                ":something isn't 'Deep Purple'",
+                function(){return 'Yep!';}
+            ],
         ];
     }
 }

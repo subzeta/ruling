@@ -35,7 +35,7 @@ class Context
         }
 
         foreach ($this->get() as $key => $value) {
-            if (empty($key) || empty($value) || !is_string($key)) {
+            if (empty($key) || !preg_match('/^\:[a-zA-Z\_]+$/', $key)) {
                 return false;
             }
         }
@@ -51,11 +51,32 @@ class Context
     {
         if (is_array($context)) {
             foreach ($context as $key => $value) {
-                $context[':' . $key] = !empty($value) && is_string($value) ? '"'.$value.'"' : $value;
+                $context[':' . $key] = $this->processValue($value);
                 unset($context[$key]);
             }
         }
 
         return $context;
+    }
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private function processValue($value)
+    {
+        if (!is_bool($value) && empty($value)) {
+            return 'null';
+        }
+
+        $value = is_callable($value) ? $value() : $value;
+
+        if (is_string($value)) {
+            $value = '"'.$value.'"';
+        } elseif (is_bool($value)) {
+            $value = $value ? 'true' : 'false';
+        }
+
+        return $value;
     }
 }

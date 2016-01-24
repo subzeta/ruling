@@ -17,9 +17,7 @@ $my = new \stdClass();
 $my->sensitivity = 80;
 $my->joyfulness = 10;
 
-$ruling = new Ruling();
-
-$ruling
+(new Ruling())
     // 1-. the context
     ->given([
         'sensitivity' => $my->sensitivity,
@@ -29,10 +27,10 @@ $ruling
         ':sensitivity is greater than 90 or :joyfulness is less than 20'
     // 3-. the optional success callback
     )->then(function() {
-        echo 'Hell yeah, I should listen it!';
+        echo 'Hell yeah, I should listen music right now!';
     // 4-. the optional fail callback
     })->otherwise(function() {
-        echo 'I\'m happy enough right now, thanks.';
+        echo 'I\'m happy enough, thanks.';
     // 5-. run!
     })->execute();
 
@@ -64,6 +62,8 @@ Comparison | is less than | <
 Comparison | is less or equal to | <=
 Comparison | is equal to (alias: is) | ==
 Comparison | is not equal to (aliases: is not, isn't) | !=
+Comparison | same as | ===
+Comparison | not same as | !==
 Logical | and | &&
 Logical | or | \|\|
 
@@ -76,11 +76,14 @@ Logical | or | \|\|
 $ phpunit
 ```
 
+# Recursive to do list
+* Increase the number of unit tests to prevent bad contexts or bad formatted rules from being executed.
+
 # To do
-* Increase the number of unit tests to prevent bad formatted rules from being executed.
 * Add more operators (in, for example).
-* Context values may permit callable functions too.
 * It can be interesting to implement a kind of *dump* method to show the interpreted rule.
 
 # Changelist
 * Allow aliases ("is equal to" can be written as "is" and "is not equal to" as "is not"/"isn't").
+* Context values may permit callable functions too.
+* Added the strict comparison operators (same as, not same as).

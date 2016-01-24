@@ -114,7 +114,7 @@ class Ruling
     private function validate()
     {
         if (!$this->context->valid()) {
-            throw new InvalidContextException('Context must be an array with string keys and not null/blank values.');
+            throw new InvalidContextException('Context must be an array with string keys and values.');
         }
         if (!$this->rules->valid()) {
             throw new InvalidRuleException('Rule must be a string or an array of strings.');

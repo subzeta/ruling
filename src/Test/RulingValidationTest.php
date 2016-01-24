@@ -24,11 +24,11 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
      * @param mixed $context
      * @test
      */
-    public function itShouldReturnAnInvalidContextExceptionIfContextIsNotAnArray($context)
+    public function itShouldReturnAnInvalidContextExceptionIfContextIsNotValid($context)
     {
         $this->setExpectedException(
             'subzeta\Ruling\Exception\InvalidContextException',
-            'Context must be an array with string keys and not null/blank values.'
+            'Context must be an array with string keys and values.'
         );
 
         $this->ruling
@@ -51,7 +51,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->ruling
-            ->given(['hahaha'])
+            ->given(['hahaha' => 1])
             ->when($rule)
             ->then(function(){return null;})
             ->execute();
@@ -60,7 +60,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnAnInvalidRuleExceptionIfRuleIsNotProvidedButItIsNotValid()
+    public function itShouldReturnAnInvalidRuleExceptionIfRuleIsValid()
     {
         $this->setExpectedException(
             'subzeta\Ruling\Exception\InvalidRuleException',
@@ -68,7 +68,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->ruling
-            ->given(['hahaha'])
+            ->given(['hahaha' => 1])
             ->when('1 < 3 ;')
             ->then(function(){return null;})
             ->execute();
@@ -85,7 +85,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->ruling
-            ->given(['haha'])
+            ->given(['heyyo' => 1])
             ->when('1 == 2')
             ->then('morcilla')
             ->execute();
@@ -102,7 +102,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->ruling
-            ->given(['haha'])
+            ->given(['heyyo' => true])
             ->when('2 > 3')
             ->then(function(){return null;})
             ->otherwise('morcilla')
@@ -121,6 +121,8 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
             [null],
             [''],
             [['']],
+            [[':']],
+            [['thisIsAValueWithAnIntKey']],
             [[null]],
             [['' => '']],
             [[0 => '']],
