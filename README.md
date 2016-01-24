@@ -9,11 +9,7 @@ $ composer require "subzeta/ruling":"dev-master"
 # Usage example
 ```php
 
-// Composer install
 require '/path/to/vendor/autoload.php';
-
-// Non-composer install
-require '/path/to/src/subzeta/Ruling/Autoloader.php';
 
 use subzeta\Ruling\Ruling;
 
@@ -24,15 +20,20 @@ $my->joyfulness = 10;
 $ruling = new Ruling();
 
 $ruling
+    // 1-. the context
     ->given([
         'sensitivity' => $my->sensitivity,
         'joyfulness' => $my->joyfulness
+    // 2-. the rules
     ])->when(
         ':sensitivity is greater than 90 or :joyfulness is less than 20'
+    // 3-. the optional success callback
     )->then(function() {
         echo 'Hell yeah, I should listen it!';
+    // 4-. the optional fail callback
     })->otherwise(function() {
         echo 'I\'m happy enough right now, thanks.';
+    // 5-. run!
     })->execute();
 
 // Outputs: Hell yeah, I should listen it!
