@@ -17,13 +17,14 @@ class Evaluator
      */
     public function assert($rules, $context)
     {
-        foreach ($rules->get() as $rule) {
-            if (!(new Rule($this->prepare($rule, $context)))->isTrue()) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_product(
+            array_map(
+                function($rule) {
+                    return (new Rule($rule))->isTrue();
+                },
+                $this->interpret($rules, $context)
+            )
+        );
     }
 
     /**
@@ -33,13 +34,14 @@ class Evaluator
      */
     public function valid($rules, $context)
     {
-        foreach ($rules->get() as $rule) {
-            if (!(new Rule($this->prepare($rule, $context)))->isValid()) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_product(
+            array_map(
+                function($rule) {
+                    return (new Rule($rule))->isValid();
+                },
+                $this->interpret($rules, $context)
+            )
+        );
     }
 
     /**
@@ -49,13 +51,22 @@ class Evaluator
      */
     public function interpret($rules, $context)
     {
-        $interpretations = [];
+        return $this->build($rules, $context);
+    }
 
-        foreach ($rules->get() as $rule) {
-            $interpretations[] = $this->prepare($rule, $context);
-        }
-
-        return $interpretations;
+    /**
+     * @param RuleCollection $rules
+     * @param Context $context
+     * @return string[]
+     */
+    private function build($rules, $context)
+    {
+        return array_map(
+            function($rule) use ($context) {
+                return $this->prepare($rule, $context);
+            },
+            $rules->get()
+        );
     }
 
     /**
@@ -65,16 +76,8 @@ class Evaluator
      */
     private function prepare($rule, $context)
     {
-        $replacements = array_merge(
-            (new ComparisonOperator())->getAll(),
-            (new LogicalOperator())->getAll(),
-            $context->get()
-        );
+        $replacements = array_merge((new ComparisonOperator())->all(), (new LogicalOperator())->all(), $context->get());
 
-        foreach ($replacements as $search => $replace) {
-            $rule = str_replace($search, $replace, $rule);
-        }
-
-        return $rule;
+        return str_replace(array_keys($replacements), array_values($replacements), $rule);
     }
 }

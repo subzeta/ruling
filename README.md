@@ -71,6 +71,7 @@ Comparison | same as | ===
 Comparison | not same as | !==
 Logical | and | &&
 Logical | or | \|\|
+Containment | contained in (alias: in) | in 
 
 # Notes
 * It's not necessary to provide callbacks for *execute* method, it will return a boolean instead as *assert* does.
@@ -85,10 +86,15 @@ $ phpunit
 * Increase the number of unit tests to prevent bad contexts or bad formatted rules from being executed.
 
 # To do
-* Add more operators (in, for example).
+* Improve the interpreted method response. 
 
 # Changelist
 * Allow aliases ("is equal to" can be written as "is" and "is not equal to" as "is not"/"isn't").
 * Context values may permit callable functions too.
 * Added the strict comparison operators (same as, not same as).
 * It can be interesting to implement a kind of *dump* method to show the interpreted rule.
+* Added the "in" operator.
+* Context accepts array values.
+
+# License
+MIT

@@ -7,7 +7,7 @@ class ComparisonOperator
     /**
      * @return array
      */
-    public function getAll()
+    public function all()
     {
         return [
             ' is greater than ' => ' > ',
@@ -22,6 +22,8 @@ class ComparisonOperator
             ' isn\'t ' => ' != ',
             ' isn"t ' => ' != ',
             ' is ' => ' == ',
+            ' contained in ' => ' in ',
+            ' in ' => ' in ',
         ];
     }
 }

@@ -71,7 +71,9 @@ class Context
 
         $value = is_callable($value) ? $value() : $value;
 
-        if (is_string($value)) {
+        if (is_array($value)) {
+            $value = '['.implode(',', array_map(function($e) {return is_string($e) ? '"'.$e.'"' : $e;}, $value)).']';
+        } elseif (is_string($value)) {
             $value = '"'.$value.'"';
         } elseif (is_bool($value)) {
             $value = $value ? 'true' : 'false';

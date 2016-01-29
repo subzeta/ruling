@@ -7,7 +7,7 @@ class LogicalOperator
     /**
      * @return array
      */
-    public function getAll()
+    public function all()
     {
         return [
             ' and ' => ' && ',
