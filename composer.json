@@ -4,6 +4,7 @@
     "description": "An stateless rule engine",
     "keywords": ["rule", "engine", "rule engine", "ruler", "ruling", "rule eval", "assert"],
     "homepage": "https://github.com/subzeta/ruling",
+    "license": "MIT",
     "authors": [
         {
             "name": "Sergio Cadu",
