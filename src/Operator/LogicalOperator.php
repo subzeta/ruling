@@ -4,10 +4,7 @@ namespace subzeta\Ruling\Operator;
 
 class LogicalOperator
 {
-    /**
-     * @return array
-     */
-    public function all()
+    public function all(): array
     {
         return [
             ' and ' => ' && ',

@@ -9,87 +9,55 @@ use subzeta\Ruling\Exception\InvalidRuleException;
 
 class Ruling
 {
-    /**
-     * @var Context
-     */
+    /** @var Context */
     private $context;
 
-    /**
-     * @var RuleCollection
-     */
+    /** @var RuleCollection */
     private $rules;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $successCallback;
 
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $failCallback;
 
-    /**
-     * @var Evaluator
-     */
+    /** @var Evaluator */
     private $evaluator;
 
-    /**
-     * @desc constructor
-     */
     public function __construct()
     {
         $this->evaluator = new Evaluator();
     }
 
-    /**
-     * @param string[] $context
-     * @return self
-     */
-    public function given($context)
+    public function given($context): self
     {
         $this->context = new Context($context);
 
         return $this;
     }
 
-    /**
-     * @param string|string[] $rules
-     * @return self
-     */
-    public function when($rules)
+    public function when($rules): self
     {
         $this->rules = new RuleCollection($rules);
 
         return $this;
     }
 
-    /**
-     * @param callable $callback
-     * @return self
-     */
-    public function then($callback)
+    public function then($callback): self
     {
         $this->successCallback = $callback;
 
         return $this;
     }
 
-    /**
-     * @param callable $callback
-     * @return self
-     */
-    public function otherwise($callback)
+    public function otherwise($callback): self
     {
         $this->failCallback = $callback;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function assert()
+    public function assert(): bool
     {
         $this->validate();
 
@@ -106,19 +74,11 @@ class Ruling
             ($this->failCallback ? call_user_func($this->failCallback) : false);
     }
 
-    /**
-     * @return string[]
-     */
-    public function interpret()
+    public function interpret(): array
     {
         return $this->evaluator->interpret($this->rules, $this->context);
     }
 
-    /**
-     * @throws InvalidContextException
-     * @throws InvalidRuleException
-     * @throws InvalidCallbackException
-     */
     private function validate()
     {
         if (!$this->context->valid()) {

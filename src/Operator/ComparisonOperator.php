@@ -4,10 +4,7 @@ namespace subzeta\Ruling\Operator;
 
 class ComparisonOperator
 {
-    /**
-     * @return array
-     */
-    public function all()
+    public function all(): array
     {
         return [
             ' is greater than ' => ' > ',
@@ -22,7 +19,7 @@ class ComparisonOperator
             ' isn\'t ' => ' != ',
             ' isn"t ' => ' != ',
             ' is ' => ' == ',
-            ' contained in ' => ' in ',
+            ' contained in '    => ' in ',
             ' in ' => ' in ',
         ];
     }

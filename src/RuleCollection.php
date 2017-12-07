@@ -4,31 +4,19 @@ namespace subzeta\Ruling;
 
 class RuleCollection
 {
-    /**
-     * @param string[]
-     */
-    private $rules;
+    private $rules = [];
 
-    /**
-     * @param string[] $rules
-     */
     public function __construct($rules)
     {
         $this->rules = is_array($rules) ? $rules : [$rules];
     }
 
-    /**
-     * @return string[]
-     */
-    public function get()
+    public function get(): array
     {
         return $this->rules;
     }
 
-    /**
-     * @return bool
-     */
-    public function valid()
+    public function valid(): bool
     {
         foreach ($this->get() as $rule) {
             if (empty($rule) || !is_string($rule)) {

@@ -10,12 +10,7 @@ use subzeta\Ruling\RuleCollection;
 
 class Evaluator
 {
-    /**
-     * @param RuleCollection $rules
-     * @param Context $context
-     * @return bool
-     */
-    public function assert($rules, $context)
+    public function assert(RuleCollection $rules, Context $context): bool
     {
         return array_product(
             array_map(
@@ -27,12 +22,7 @@ class Evaluator
         );
     }
 
-    /**
-     * @param RuleCollection $rules
-     * @param Context $context
-     * @return bool
-     */
-    public function valid($rules, $context)
+    public function valid(RuleCollection $rules, Context $context): bool
     {
         return array_product(
             array_map(
@@ -44,22 +34,12 @@ class Evaluator
         );
     }
 
-    /**
-     * @param RuleCollection $rules
-     * @param Context $context
-     * @return string[]
-     */
-    public function interpret($rules, $context)
+    public function interpret(RuleCollection $rules, Context $context): array
     {
         return $this->build($rules, $context);
     }
 
-    /**
-     * @param RuleCollection $rules
-     * @param Context $context
-     * @return string[]
-     */
-    private function build($rules, $context)
+    private function build(RuleCollection $rules, Context $context): array
     {
         return array_map(
             function($rule) use ($context) {
@@ -69,12 +49,7 @@ class Evaluator
         );
     }
 
-    /**
-     * @param string $rule
-     * @param Context $context
-     * @return string
-     */
-    private function prepare($rule, $context)
+    private function prepare(string $rule, Context $context): string
     {
         $replacements = array_merge((new ComparisonOperator())->all(), (new LogicalOperator())->all(), $context->get());
 

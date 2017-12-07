@@ -4,31 +4,19 @@ namespace subzeta\Ruling;
 
 class Context
 {
-    /**
-     * @param array
-     */
-    private $context;
+    private $context = [];
 
-    /**
-     * @param array $context
-     */
     public function __construct($context)
     {
         $this->context = $this->build($context);
     }
 
-    /**
-     * @return array
-     */
     public function get()
     {
         return $this->context;
     }
 
-    /**
-     * @return bool
-     */
-    public function valid()
+    public function valid(): bool
     {
         if (empty($this->get()) || !is_array($this->get())) {
             return false;
@@ -43,10 +31,6 @@ class Context
         return true;
     }
 
-    /**
-     * @param array $context
-     * @return array
-     */
     private function build($context)
     {
         if (is_array($context)) {
@@ -59,10 +43,6 @@ class Context
         return $context;
     }
 
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
     private function processValue($value)
     {
         if (!is_bool($value) && empty($value)) {

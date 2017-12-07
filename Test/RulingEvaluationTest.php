@@ -6,14 +6,9 @@ use subzeta\Ruling\Ruling;
 
 class RulingEvaluationTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Ruling
-     */
+    /** @var Ruling */
     private $ruling;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp()
     {
         $this->ruling = new Ruling();

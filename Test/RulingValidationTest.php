@@ -2,18 +2,16 @@
 
 namespace subzeta\Ruling\Test;
 
+use subzeta\Ruling\Exception\InvalidCallbackException;
+use subzeta\Ruling\Exception\InvalidContextException;
+use subzeta\Ruling\Exception\InvalidRuleException;
 use subzeta\Ruling\Ruling;
 
 class RulingValidationTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Ruling
-     */
+    /** @var Ruling */
     private $ruling;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp()
     {
         $this->ruling = new Ruling();
@@ -27,7 +25,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
     public function itShouldReturnAnInvalidContextExceptionIfContextIsNotValid($context)
     {
         $this->setExpectedException(
-            'subzeta\Ruling\Exception\InvalidContextException',
+            InvalidContextException::class,
             'Context must be an array with string keys and values.'
         );
 
@@ -46,7 +44,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
     public function itShouldReturnAnInvalidRuleExceptionIfRuleIsNotAStringOrAnArrayOfStrings($rule)
     {
         $this->setExpectedException(
-            'subzeta\Ruling\Exception\InvalidRuleException',
+            InvalidRuleException::class,
             'Rule must be a string or an array of strings.'
         );
 
@@ -63,7 +61,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
     public function itShouldReturnAnInvalidRuleExceptionIfRuleIsValid()
     {
         $this->setExpectedExceptionRegExp(
-            'subzeta\Ruling\Exception\InvalidRuleException',
+            InvalidRuleException::class,
             '/^(Rules aren\'t semantically valid)(.*)$/'
         );
 
@@ -80,7 +78,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
     public function itShouldReturnAnInvalidCallbackExceptionIfSuccessCallbackIsProvidedButNotCallable()
     {
         $this->setExpectedException(
-            'subzeta\Ruling\Exception\InvalidCallbackException',
+            InvalidCallbackException::class,
             'Success callback must be callable.'
         );
 
@@ -97,7 +95,7 @@ class RulingValidationTest extends \PHPUnit_Framework_TestCase
     public function itShouldReturnAnInvalidCallbackExceptionIfFailCallbackIsProvidedAndIsNotCallable()
     {
         $this->setExpectedException(
-            'subzeta\Ruling\Exception\InvalidCallbackException',
+            InvalidCallbackException::class,
             'Fail callback must be callable.'
         );
 
