@@ -18,20 +18,15 @@ $my->sensitivity = 80;
 $my->joyfulness = 10;
 
 (new Ruling())
-    // 1-. the context
     ->given([
         'sensitivity' => $my->sensitivity,
         'joyfulness' => $my->joyfulness
-    // 2-. the rules
     ])->when(
         ':sensitivity is greater than 90 or :joyfulness is less than 20'
-    // 3-. the optional success callback
     )->then(function() {
         echo 'Hell yeah, I should listen music right now!';
-    // 4-. the optional fail callback
     })->otherwise(function() {
         echo 'I\'m happy enough, thanks.';
-    // 5-. run!
     })->execute();
 
 // Outputs: Hell yeah, I should listen music right now!

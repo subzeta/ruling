@@ -2,12 +2,18 @@
 
 namespace subzeta\Ruling;
 
+use subzeta\Ruling\Exception\InvalidContextException;
+
 class Context
 {
     private $context = [];
 
     public function __construct($context)
     {
+        if (!$this->valid($context)) {
+            throw new InvalidContextException('Context must be an array with string keys and values.');
+        }
+
         $this->context = $this->build($context);
     }
 
@@ -16,14 +22,14 @@ class Context
         return $this->context;
     }
 
-    public function valid(): bool
+    public function valid($context): bool
     {
-        if (empty($this->get()) || !is_array($this->get())) {
+        if (empty($context) || !is_array($context)) {
             return false;
         }
 
-        foreach ($this->get() as $key => $value) {
-            if (empty($key) || !preg_match('/^\:[a-zA-Z\_]+$/', $key)) {
+        foreach ($context as $key => $value) {
+            if (empty($key) || !preg_match('/^[a-zA-Z\_]+$/', $key)) {
                 return false;
             }
         }
@@ -33,11 +39,9 @@ class Context
 
     private function build($context)
     {
-        if (is_array($context)) {
-            foreach ($context as $key => $value) {
-                $context[':' . $key] = $this->processValue($value);
-                unset($context[$key]);
-            }
+        foreach ($context as $key => $value) {
+            $context[':' . $key] = $this->processValue($value);
+            unset($context[$key]);
         }
 
         return $context;

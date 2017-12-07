@@ -2,13 +2,23 @@
 
 namespace subzeta\Ruling;
 
+use subzeta\Ruling\Exception\InvalidRuleException;
+
 class RuleCollection
 {
     private $rules = [];
 
     public function __construct($rules)
     {
-        $this->rules = is_array($rules) ? $rules : [$rules];
+        if (!is_array($rules)) {
+            $rules = [$rules];
+        }
+
+        if (!$this->valid($rules)) {
+            throw new InvalidRuleException('Rule must be a string or an array of strings.');
+        }
+
+        $this->rules = $rules;
     }
 
     public function get(): array
@@ -16,9 +26,9 @@ class RuleCollection
         return $this->rules;
     }
 
-    public function valid(): bool
+    public function valid($rules): bool
     {
-        foreach ($this->get() as $rule) {
+        foreach ($rules as $rule) {
             if (empty($rule) || !is_string($rule)) {
                 return false;
             }

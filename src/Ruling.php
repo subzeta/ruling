@@ -2,10 +2,9 @@
 
 namespace subzeta\Ruling;
 
+use subzeta\Ruling\Callback\FailCallback;
+use subzeta\Ruling\Callback\SuccessCallback;
 use subzeta\Ruling\Evaluator\Evaluator;
-use subzeta\Ruling\Exception\InvalidCallbackException;
-use subzeta\Ruling\Exception\InvalidContextException;
-use subzeta\Ruling\Exception\InvalidRuleException;
 
 class Ruling
 {
@@ -15,10 +14,10 @@ class Ruling
     /** @var RuleCollection */
     private $rules;
 
-    /** @var callable */
+    /** @var Callback */
     private $successCallback;
 
-    /** @var callable */
+    /** @var Callback */
     private $failCallback;
 
     /** @var Evaluator */
@@ -45,33 +44,23 @@ class Ruling
 
     public function then($callback): self
     {
-        $this->successCallback = $callback;
+        $this->successCallback = new SuccessCallback($callback);
 
         return $this;
     }
 
     public function otherwise($callback): self
     {
-        $this->failCallback = $callback;
+        $this->failCallback = new FailCallback($callback);
 
         return $this;
     }
 
-    public function assert(): bool
-    {
-        $this->validate();
-
-        return $this->evaluator->assert($this->rules, $this->context);
-    }
-
-    /**
-     * @return callable|bool
-     */
     public function execute()
     {
-        return $this->assert() ?
-            ($this->successCallback ? call_user_func($this->successCallback) : true) :
-            ($this->failCallback ? call_user_func($this->failCallback) : false);
+        return $this->evaluator->assert($this->rules, $this->context) ?
+            $this->success()->call() :
+            $this->fail()->call();
     }
 
     public function interpret(): array
@@ -79,22 +68,13 @@ class Ruling
         return $this->evaluator->interpret($this->rules, $this->context);
     }
 
-    private function validate()
+    private function success()
     {
-        if (!$this->context->valid()) {
-            throw new InvalidContextException('Context must be an array with string keys and values.');
-        }
-        if (!$this->rules->valid()) {
-            throw new InvalidRuleException('Rule must be a string or an array of strings.');
-        }
-        if (!$this->evaluator->valid($this->rules, $this->context)) {
-            throw new InvalidRuleException('Rules aren\'t semantically valid ('.implode(',', $this->interpret()).').');
-        }
-        if ($this->successCallback !== null && !is_callable($this->successCallback)) {
-            throw new InvalidCallbackException('Success callback must be callable.');
-        }
-        if ($this->failCallback !== null && !is_callable($this->failCallback)) {
-            throw new InvalidCallbackException('Fail callback must be callable.');
-        }
+        return $this->successCallback ?? new SuccessCallback();
+    }
+
+    private function fail()
+    {
+        return $this->failCallback ?? new FailCallback();
     }
 }
